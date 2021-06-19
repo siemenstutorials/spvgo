@@ -344,8 +344,8 @@ install_docker() {
 
     for i in ${!DOMAIN_NAME[@]}; do
         docker run \
-            -d --name=${DOCKER_NAME[$i]} \
-            -p ${DOCKER_PORT[$i]}:2080 \
+            -d --name=${DOCKER_NAME} \
+            -p ${DOCKER_PORT}:2080 \
             -e nodeID=${DOCKER_NODE[$i]} \
             -e panelUrl=${PANEL_URL} \
             -e customer=${PANEL_CST} \
@@ -486,12 +486,14 @@ identify_operate() {
             fi
         done
         for ((i = 0; i < ${count}; i++)); do
-            echo "第 $i 个节点配置:"
-            read -p "请输入节点域名(不包含 http:// ):" DOMAIN_NAME[$i]
-            read -p "请输入CDN节点域名(非CDN请留空):" DOMAIN_CDNS[$i]
+#            echo "第 $i 个节点配置:"
+            read -p "请输入节点域名:" DOMAIN_NAME[$i]
+#            read -p "请输入CDN节点域名(非CDN请留空):" DOMAIN_CDNS[$i]
             read -p "请输入节点ID:" DOCKER_NODE[$i]
-            read -p "请输入节点DOCKER名字:" DOCKER_NAME[$i]
-            read -p "请输入节点DOCKER端口:" DOCKER_PORT[$i]
+            DOCKER_NAME=v${DOCKER_NODE[$i]}
+            DOCKER_PORT=${DOCKER_NODE[$i]}
+#            read -p "请输入节点DOCKER名字:" DOCKER_NAME[$i]
+#            read -p "请输入节点DOCKER端口:" DOCKER_PORT[$i]
         done
     fi
 }
